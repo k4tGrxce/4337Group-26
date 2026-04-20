@@ -5,12 +5,44 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Group4337"
         mc:Ignorable="d"
-        Title="_4337_Соловьев" Height="450" Width="800">
+        Title="_4337_Соловьев_вариант_7" Height="600" Width="1100">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <TextBlock Text="Соловьёв Станислав, 18 "
-               FontSize="20"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center" Grid.Column="0"/>
+        <!-- Кнопки импорта/экспорта -->
+        <StackPanel Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal" Margin="10">
+            <Button Margin="0,0,10,0" Content="Импорт из Excel" Click="Import_Click" Padding="8,4"/>
+            <Button Margin="0,0,10,0" Content="Экспорт в Excel" Click="Export_Click" Padding="8,4"/>
+            <Button Margin="0,0,10,0" Content="Импорт из JSON" Click="Import_Json_Click" Padding="8,4"/>
+            <Button Margin="0,0,10,0" Content="Экспорт в Word" Click="Export_Word_Click" Padding="8,4"/>
+            <Button Margin="0,0,10,0" Content="Загрузить из БД" Click="LoadFromDb_Click" Padding="8,4"/>
+        </StackPanel>
+
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="1" Text="Клиенты — Вариант 7 (категории по возрасту)" 
+                   FontSize="16" FontWeight="Bold" Margin="10,5" HorizontalAlignment="Center"/>
+
+        <!-- Таблица данных -->
+        <DataGrid Grid.Row="2" x:Name="ClientsDataGrid" 
+                  AutoGenerateColumns="False" 
+                  IsReadOnly="True" 
+                  Margin="10"
+                  CanUserSortColumns="True"
+                  AlternatingRowBackground="#F0F0F0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Код клиента" Binding="{Binding ClientCode}" Width="100"/>
+                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="220"/>
+                <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDate, StringFormat=dd.MM.yyyy}" Width="110"/>
+                <DataGridTextColumn Header="Возраст" Binding="{Binding Age}" Width="70"/>
+                <DataGridTextColumn Header="Категория" Binding="{Binding AgeCategory}" Width="150"/>
+                <DataGridTextColumn Header="E-mail" Binding="{Binding Email}" Width="220"/>
+                <DataGridTextColumn Header="Город" Binding="{Binding City}" Width="100"/>
+                <DataGridTextColumn Header="Улица" Binding="{Binding Street}" Width="120"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>
