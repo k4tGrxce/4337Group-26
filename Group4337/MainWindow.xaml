@@ -52,7 +52,7 @@
                 
                 <!-- Места для добавления элементов управления -->
                 <Button Content="Соловьёв"
-                    Grid.Row="2"
+                    Grid.Row="17"
                     Width="160"
                     Height="30"
                     Margin="5"
