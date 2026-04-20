@@ -254,26 +254,45 @@ namespace Group4337
             ctx.Database.EnsureCreated();
 
             var json = File.ReadAllText(path);
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-            var clients = JsonSerializer.Deserialize<List<Client>>(json, options);
-            if (clients == null) return;
+            using var doc = JsonDocument.Parse(json);
 
-            foreach (var c in clients)
+            var dateFormats = new[] { "dd.MM.yyyy", "d.M.yyyy", "yyyy-MM-dd", "MM/dd/yyyy" };
+
+            foreach (var elem in doc.RootElement.EnumerateArray())
             {
+                string GetStr(string key1, string key2 = "")
+                {
+                    if (elem.TryGetProperty(key1, out var v) && v.ValueKind != JsonValueKind.Null)
+                        return v.ToString().Trim();
+                    if (!string.IsNullOrEmpty(key2) && elem.TryGetProperty(key2, out var v2) && v2.ValueKind != JsonValueKind.Null)
+                        return v2.ToString().Trim();
+                    return string.Empty;
+                }
+
+                DateTime ParseJsonDate(string key)
+                {
+                    if (!elem.TryGetProperty(key, out var v)) return DateTime.MinValue;
+                    var s = v.ToString().Trim();
+                    if (DateTime.TryParseExact(s, dateFormats,
+                            System.Globalization.CultureInfo.InvariantCulture,
+                            System.Globalization.DateTimeStyles.None, out var dt))
+                        return dt;
+                    if (DateTime.TryParse(s, out var dt2)) return dt2;
+                    return DateTime.MinValue;
+                }
+
                 ctx.Clients.Add(new Client
                 {
-                    ClientCode = c.ClientCode,
-                    FullName = c.FullName,
-                    BirthDate = c.BirthDate,
-                    PostalCode = c.PostalCode,
-                    City = c.City,
-                    Street = c.Street,
-                    House = c.House,
-                    Apartment = c.Apartment,
-                    Email = c.Email
+                    // Поддерживаем оба варианта названий полей
+                    ClientCode = GetStr("ClientCode", "CodeClient"),
+                    FullName   = GetStr("FullName"),
+                    BirthDate  = ParseJsonDate("BirthDate"),
+                    PostalCode = GetStr("PostalCode", "Index"),
+                    City       = GetStr("City"),
+                    Street     = GetStr("Street"),
+                    House      = GetStr("House", "Home"),
+                    Apartment  = GetStr("Apartment", "Kvartira"),
+                    Email      = GetStr("Email", "E_mail")
                 });
             }
             ctx.SaveChanges();
