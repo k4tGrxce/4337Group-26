@@ -7,12 +7,7 @@
         mc:Ignorable="d"
         Title="_4337_Соловьев" Height="450" Width="800">
     <Grid>
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal" Margin="10">
-            <Button Margin="0,0,10,0" Content="Импорт данных" Click="Import_Click" />
-            <Button Margin="0,0,10,0" Content="Экспорт в Excel" Click="Export_Click"/>
-            <Button Margin="0,0,10,0" Content="Импорт JSON данных" Click="Import_Json_Click"/>
-            <Button Margin="0,0,10,0" Content="Экспорт в Word" Click="Export_Word_Click"/>
-        </StackPanel>
+
         <TextBlock Text="Соловьёв Станислав, 18 "
                FontSize="20"
                HorizontalAlignment="Center"
