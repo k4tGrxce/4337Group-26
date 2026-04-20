@@ -49,9 +49,15 @@
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-
+                
                 <!-- Места для добавления элементов управления -->
-
+                <Button Content="Соловьёв"
+                    Grid.Row="2"
+                    Width="160"
+                    Height="30"
+                    Margin="5"
+                    Click="Button_Click"
+                   />
                 <!---->
 
             </Grid>
